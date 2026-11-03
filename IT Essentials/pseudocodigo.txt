@@ -1,0 +1,49 @@
+Ejercicio 1
+
+Inicio
+
+Definir precio
+Mostrar "Ingrese el precio del producto: "
+Pedir precio
+
+
+Si precio < 100 entonces:
+	Mostrar (precio - (precio * 0.02))
+Sino:
+	Mostrar (precio - (precio * 0.1))
+FinSi
+Fin
+
+Ejercicio 2
+
+Inicio
+
+Definir tiempo_segundos
+Mostrar "Ingrese tiempo en segundos: "
+Pedir tiempo_segundos
+
+Si tiempo_segundos > 600 entonces:
+	Mostrar "Mayor"
+Sino, si tiempo_segundos == 600 entonces:
+	Mostrar "Igual"
+Sino:
+	Mostrar 600 - tiempo_segundos
+FinSi
+Fin
+	
+Ejercicio 3
+
+Inicio
+Definir numero
+Mostrar "Ingrese numero: "
+Pedir numero
+Definir suma = 0                             
+
+Definir contador =  1                      
+Mientras contador <= numero, repetir:    
+	suma = suma + contador              
+	contador = contador + 1
+FinMientras
+Mostrar suma
+ 
+Fin
