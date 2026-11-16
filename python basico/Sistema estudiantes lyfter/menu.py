@@ -30,7 +30,12 @@ def main_menu(student_list):
                     case 5:
                         data.export_students_to_csv(student_list)
                     case 6:
-                        student_list = data.import_students_from_csv()
+                        temp_student_list = data.import_students_from_csv()
+                        if temp_student_list == 55555:
+                            print("\nNo se pudo importar la lista de estudiantes desde el archivo CSV.\n")
+                        else:
+                            student_list = temp_student_list
+                            
                     case 7:
                         print("¡Hasta luego!")
                         break

@@ -2,16 +2,21 @@ import csv
 
 
 def export_students_to_csv(student_list):
-    with open('estudiantes.csv', 'w', encoding = 'utf-8', newline='') as file:
-        headers = student_list[0].keys()
+    try:
+        if student_list == []:
+            raise IndexError
+        with open('estudiantes.csv', 'w', encoding = 'utf-8', newline='') as file:
+            headers = student_list[0].keys()
 
-        writer = csv.DictWriter(file, fieldnames=headers)
+            writer = csv.DictWriter(file, fieldnames=headers)
 
-        writer.writeheader()
+            writer.writeheader()
 
-        for student in student_list:
-            writer.writerow(student)
-    print("\n¡Datos exportados exitosamente a estudiantes.csv!\n")
+            for student in student_list:
+                writer.writerow(student)
+        print("\n¡Datos exportados exitosamente a estudiantes.csv!\n")
+    except IndexError:
+        print("\nLa lista de estudiantes está vacía. No hay estudiantes para exportar.")
 
 
 def import_students_from_csv():
@@ -35,5 +40,6 @@ def import_students_from_csv():
             return(student_list)
     except FileNotFoundError:
         print("\nNo se encontró el archivo 'estudiantes.csv'. Asegúrate de exportar los datos primero.")
+        return 55555
 
     
