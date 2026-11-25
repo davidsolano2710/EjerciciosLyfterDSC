@@ -1,14 +1,21 @@
 def args_is_num(func):
-    def wrapper(*args):
+    def wrapper(*args, **kwargs):
         for arg in args:
+            if isinstance(arg, bool):  #in this case we wont consider boolean values as numbers
+                raise TypeError("Error: Boolean values are not allowed as arguments.")
+            
             if not isinstance(arg, (int, float)):                   #isinstance() checks if the argument is a int or float.
                 raise TypeError("Error: All arguments must be numbers (int or float).")
-        return func(*args)
+            
+        for key, value in kwargs.items():
+            if not isinstance(value, (int, float)):
+                raise TypeError("Error: All keyword arguments must be numbers (int or float).")
+        return func(*args, **kwargs)
     return wrapper
 
       
 @args_is_num
-def suma(a, b):
+def sum_a_b(a, b):
     return a + b
 
 
@@ -22,12 +29,12 @@ def print_args(*args):
 
 #tests
 try:
-    print(suma(10, 20))
+    print(sum_a_b(True, 20))
 except TypeError as e:
     print(e)
 
 try:
-    print(suma("c", 10))
+    print(sum_a_b("c", 10))
 except TypeError as e:
     print(e)
 
