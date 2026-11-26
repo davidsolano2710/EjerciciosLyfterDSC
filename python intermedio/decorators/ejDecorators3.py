@@ -4,8 +4,8 @@ class User():
     def __init__(self, bd):   #bd as in birthday
         self.date_of_birth = date.fromisoformat(bd)
         
-
-    def calculate_age(self):
+    @property
+    def age(self):
         today = date.today()
         years = today.year - self.date_of_birth.year
         # Adjust for cases where the birthday hasn't occurred yet this year
@@ -15,11 +15,23 @@ class User():
 
 
 def user_age_checker_decorator(func):
-    def wrapper(user):
-      
-        if not isinstance(user, User):
-            raise TypeError("Error: Argument must be an instance of the User class.")
-        elif user.calculate_age() < 18:
+    def wrapper(*args, **kwargs):
+        found_user = False
+        for arg in args:
+            if isinstance(arg, User):
+                found_user = True
+                user = arg
+                break
+
+        for key, value in kwargs.items():
+            if isinstance(value, User):
+                found_user = True
+                user = value
+                break
+        
+        if found_user == False:
+            raise TypeError("Error: No User instance found in the arguments.")
+        elif user.age < 18:
             raise ValueError("Error: User must be at least 18 years old.")
         return func(user)
     return wrapper
@@ -27,7 +39,16 @@ def user_age_checker_decorator(func):
 
 @user_age_checker_decorator
 def user_age_info(user):
-    print(f"User is {user.calculate_age()} years old and can perform this action.")
+    print(f"User is {user.age} years old and can perform this action.")
+
+
+@user_age_checker_decorator
+def user_age_info_args(*args, **kwargs):  
+    for arg in args:
+        if isinstance(arg, User):
+            print(f"User is {arg.age} years old and can perform this action.")
+            return
+    return
 
 
 
@@ -35,8 +56,10 @@ def user_age_info(user):
 user1 = User('2000-01-01')
 user2 = User('2010-01-01')
 
+
 try:
-    user_age_info(user1)  # Should work
+    #user_age_info(user1)  # Should work
+    user_age_info_args(1,2,3,4,5,user1)  
 except (TypeError, ValueError) as e:
     print(e)
 
